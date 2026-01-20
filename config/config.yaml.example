@@ -1,0 +1,83 @@
+notes_path: /path/to/your/notes
+folders:
+  inbox: _Inbox
+  output: Notes
+  archive: _Archive
+llm:
+  providers:
+    groq:
+      model: llama-3.3-70b-versatile
+      enabled: true
+      timeout: 60
+      max_retries: 3
+      api_key_env: GROQ_API_KEY
+      base_url: https://api.groq.com/openai/v1
+    perplexity:
+      model: llama-3.1-sonar-large-128k-online
+      enabled: true
+      timeout: 60
+      max_retries: 3
+      api_key_env: PERPLEXITY_API_KEY
+  routing:
+  - provider: groq
+    priority: 100
+    conditions:
+    - type: word_count
+      value: 500
+      operator: <
+  - provider: groq
+    priority: 0
+    conditions:
+    - type: always
+  default_provider: groq
+categories:
+- name: Projects
+  path: Projects
+  keywords:
+  - project
+  - task
+  - todo
+  description: Project-related notes
+- name: Ideas
+  path: Ideas
+  keywords:
+  - idea
+  - brainstorm
+  - concept
+  description: Ideas and brainstorming
+- name: Research
+  path: Research
+  keywords:
+  - research
+  - study
+  - paper
+  description: Research notes
+- name: Personal
+  path: Personal
+  keywords:
+  - personal
+  - journal
+  - diary
+  description: Personal notes
+- name: Work
+  path: Work
+  keywords:
+  - work
+  - meeting
+  - client
+  description: Work-related notes
+fallback:
+  enabled: true
+  category: _Unsorted
+  review_flag: '[NEEDS REVIEW]'
+processing:
+  confidence_threshold: 0.7
+  debounce_seconds: 2.0
+  supported_extensions:
+  - .txt
+  - .md
+  ignore_patterns:
+  - .*
+  - _*
+  - ~*
+log_level: INFO

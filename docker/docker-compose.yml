@@ -1,0 +1,28 @@
+services:
+  txttmd:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: txttmd
+    restart: unless-stopped
+    environment:
+      - NOTES_PATH=/data/notes
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - GROQ_API_KEY=${GROQ_API_KEY:-}
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY:-}
+      - PERPLEXITY_API_KEY=${PERPLEXITY_API_KEY:-}
+    volumes:
+      - ${NOTES_PATH:-./notes}:/data/notes
+      - ../config:/app/config:ro
+      - txttmd-logs:/app/logs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import sys; sys.exit(0)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  txttmd-logs:

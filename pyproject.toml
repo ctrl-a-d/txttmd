@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "txttmd"
+version = "0.1.0"
+description = "Note automation system with LLM-powered categorization"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "txttmd"}
+]
+keywords = ["notes", "automation", "llm", "markdown", "categorization"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing :: Markup :: Markdown",
+]
+
+dependencies = [
+    "watchdog>=6.0.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "textual>=0.80.0",
+    "rich>=13.0.0",
+    "click>=8.0.0",
+    "httpx>=0.27.0",
+]
+
+[project.optional-dependencies]
+anthropic = ["anthropic>=0.40.0"]
+openai = ["openai>=1.50.0"]
+ollama = ["ollama>=0.3.0"]
+all = [
+    "anthropic>=0.40.0",
+    "openai>=1.50.0",
+    "ollama>=0.3.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+]
+
+[project.scripts]
+txttmd = "src.main:main"
+notectl = "src.cli.notectl:main"
+
+[project.urls]
+Homepage = "https://github.com/ctrl-a-d/txttmd"
+Repository = "https://github.com/ctrl-a-d/txttmd"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+ignore = ["E501"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
